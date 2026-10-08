@@ -1,5 +1,5 @@
 // Intro loader: the emblem draws itself, the name appears, then the curtain lifts.
-// Shown once per browser session. Plain JS + CSS, so it does not depend on GSAP.
+// Shown on every visit and every reload. Plain JS + CSS, so it does not depend on GSAP.
 (function () {
   const root = document.documentElement,
     el = document.getElementById("loader");
@@ -21,9 +21,6 @@
       () => {
         root.classList.remove("has-loader");
         el.remove();
-        try {
-          sessionStorage.setItem("olt_loaded", "1");
-        } catch (e) {}
         if (window.ScrollTrigger) ScrollTrigger.refresh();
       },
       RM ? 0 : 1000
