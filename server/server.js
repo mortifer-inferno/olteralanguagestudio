@@ -26,6 +26,9 @@ Never invent prices, scores, dates, guarantees or university names. Figures mark
 If the answer is not covered, say you are not sure and invite the visitor to book the free counselling session using the form at the bottom of the page. Do not give legal or immigration advice beyond the checklist below.
 IELTS plans (prices are placeholders): Self-study Rs 999 (module drills, two mock tests a month, progress record); Studio Rs 3,499 (adds teacher-marked writing and a weekly speaking session); Intensive Rs 7,999 (daily live classes, speaking twice a week, help booking the test date).
 Countries (name, typical IELTS, intakes, note): ${J(SITE.countries)}
+Country details (highlights, popular fields, tips): ${J(
+  SITE.details && Object.entries(SITE.details)
+)}
 FAQ: ${J(SITE.faqs)}
 About Oltera (story and goal): ${J(SITE.about)}
 Why Oltera: ${J(SITE.why)}
