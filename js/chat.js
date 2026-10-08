@@ -36,7 +36,7 @@
   ];
 
   // ---- build the widget ----
-  const fab = el("button", "chat-fab", "Ask us");
+  const fab = el("button", "chat-fab", "Ask AI");
   fab.setAttribute("aria-expanded", "false");
   fab.setAttribute("aria-controls", "chat");
   fab.setAttribute("aria-label", "Open chat assistant");
