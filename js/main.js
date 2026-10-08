@@ -321,8 +321,10 @@
       .split(" ")
       .map((w) => `<span class="ww"><i>${w}</i></span>`)
       .join(" ");
+    const LD = window.__ld || 0; // seconds to wait while the loader is on screen
     gsap.from("#h1 i", {
       yPercent: 110,
+      delay: LD,
       duration: 1,
       stagger: 0.12,
       ease: "power4.out",
@@ -331,7 +333,7 @@
       y: 30,
       opacity: 0,
       duration: 0.9,
-      delay: 0.7,
+      delay: 0.7 + LD,
       stagger: 0.15,
     });
     gsap.to(".emblem", {
@@ -364,10 +366,13 @@
           }),
       });
     });
-    // destinations: pinned horizontal scroll on desktop
+    // destinations: pinned horizontal scroll on desktop (GSAP slides the cards sideways as you scroll down).
+    // The "pin" class switches the CSS from native scrolling to this mode, so if GSAP never loads the cards still scroll normally.
     gsap.matchMedia().add("(min-width: 801px)", () => {
-      const t = $("track"),
+      const dest = document.querySelector(".dest"),
+        t = $("track"),
         dist = () => t.scrollWidth - innerWidth + 60;
+      dest.classList.add("pin");
       destST = gsap.to(t, {
         x: () => -dist(),
         ease: "none",
@@ -381,19 +386,21 @@
           refreshPriority: 1,
         },
       }).scrollTrigger;
+      return () => {
+        dest.classList.remove("pin");
+        destST = null;
+      };
     });
     // generic reveals
-    gsap.utils
-      .toArray(".wrow,.mrow,.frow,.sgrid blockquote,h2")
-      .forEach((el) =>
-        gsap.from(el, {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        })
-      );
+    gsap.utils.toArray(".wrow,.mrow,.frow,.sgrid blockquote,h2").forEach((el) =>
+      gsap.from(el, {
+        y: 28,
+        opacity: 0,
+        duration: 1.1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 88%", once: true },
+      })
+    );
     // offer tracker: line fills as you scroll, steps light up
     const lis = [...document.querySelectorAll(".steps li")];
     gsap.to(".steps .fill", {
@@ -438,7 +445,7 @@
       opacity: 0,
       duration: 0.8,
       stagger: 0.14,
-      ease: "back.out(1.6)",
+      ease: "power3.out",
       scrollTrigger: once(".stats", "top 85%"),
     });
     // about: lead sentence lights up word by word as you scroll
@@ -463,26 +470,42 @@
           },
         }
       );
-      gsap.utils
-        .toArray(".ab-r")
-        .forEach((r) =>
-          gsap.from(r.querySelectorAll("p"), {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            scrollTrigger: once(r),
-          })
-        );
+      gsap.utils.toArray(".ab-r").forEach((r) =>
+        gsap.from(r.querySelectorAll("p"), {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          scrollTrigger: once(r),
+        })
+      );
     }
-    gsap.from(".goal-l p", {
-      x: -40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power3.out",
-      scrollTrigger: once(".goal-l", "top 85%"),
-    });
+    // goal: lead statement lights up word by word, same as the story quote
+    const gl = document.querySelector(".goal-l");
+    if (gl) {
+      gl.querySelectorAll("p").forEach(
+        (p) =>
+          (p.innerHTML = p.textContent
+            .split(" ")
+            .map((w) => `<span class="gw">${w}</span>`)
+            .join(" "))
+      );
+      gsap.fromTo(
+        ".gw",
+        { opacity: 0.18 },
+        {
+          opacity: 1,
+          stagger: 0.1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: gl,
+            start: "top 82%",
+            end: "bottom 50%",
+            scrub: true,
+          },
+        }
+      );
+    }
     gsap.from(".about .tag", {
       y: 40,
       opacity: 0,
@@ -490,33 +513,16 @@
       ease: "power3.out",
       scrollTrigger: once(".about .tag", "top 92%"),
     });
-    // destination cards: lift on hover (mouse only)
-    if (matchMedia("(pointer:fine)").matches)
-      document.querySelectorAll(".cty").forEach((c) => {
-        c.addEventListener("mouseenter", () =>
-          gsap.to(c, {
-            scale: 1.04,
-            rotate: -1,
-            duration: 0.35,
-            ease: "back.out(2)",
-          })
-        );
-        c.addEventListener("mouseleave", () =>
-          gsap.to(c, { scale: 1, rotate: 0, duration: 0.4, ease: "power2.out" })
-        );
-      });
     // why Oltera: headings slide in from the left
-    gsap.utils
-      .toArray(".wrow h3")
-      .forEach((h) =>
-        gsap.from(h, {
-          x: -60,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: once(h, "top 90%"),
-        })
-      );
+    gsap.utils.toArray(".wrow h3").forEach((h) =>
+      gsap.from(h, {
+        x: -60,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: once(h, "top 90%"),
+      })
+    );
     // IELTS: mock test box and writing area pop in
     gsap.from(".tbox", {
       y: 60,
@@ -535,17 +541,15 @@
       scrollTrigger: once(".write .checks", "top 85%"),
     });
     // plan rows slide in alternately from left and right
-    gsap.utils
-      .toArray(".pl")
-      .forEach((p, i) =>
-        gsap.from(p, {
-          x: i % 2 ? 90 : -90,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: once(p),
-        })
-      );
+    gsap.utils.toArray(".pl").forEach((p, i) =>
+      gsap.from(p, {
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: once(p),
+      })
+    );
     // tracker steps slide in as the line reaches them
     lis.forEach((li) =>
       gsap.from(li, {
@@ -556,18 +560,6 @@
         scrollTrigger: once(li, "top 85%"),
       })
     );
-    // stories tilt into place
-    gsap.utils
-      .toArray(".sgrid blockquote")
-      .forEach((q, i) =>
-        gsap.from(q, {
-          rotate: [-4, 3, -3][i % 3],
-          transformOrigin: "0 100%",
-          duration: 1,
-          ease: "back.out(1.4)",
-          scrollTrigger: once(q),
-        })
-      );
     // enquiry form fields and footer
     gsap.from("#f p,#f button", {
       y: 30,
@@ -604,7 +596,7 @@
       opacity: 0,
       duration: 0.6,
       stagger: 0.07,
-      delay: 0.3,
+      delay: 0.3 + LD,
       ease: "power3.out",
       clearProps: "transform,opacity",
     });
@@ -632,24 +624,6 @@
           { scale: 1, duration: 0.4, ease: "back.out(3)" }
         );
     }).observe(tmEl, { childList: true, characterData: true, subtree: true });
-    // mouse only: magnetic buttons
-    if (matchMedia("(pointer:fine)").matches) {
-      document
-        .querySelectorAll(".hero .btn,.nav .cta,.plans .btn")
-        .forEach((b) => {
-          b.addEventListener("mousemove", (e) => {
-            const r = b.getBoundingClientRect();
-            gsap.to(b, {
-              x: (e.clientX - r.left - r.width / 2) * 0.35,
-              y: (e.clientY - r.top - r.height / 2) * 0.5,
-              duration: 0.3,
-            });
-          });
-          b.addEventListener("mouseleave", () =>
-            gsap.to(b, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1,.4)" })
-          );
-        });
-    }
     return () => {};
   });
   // without animation, light every tracker step
