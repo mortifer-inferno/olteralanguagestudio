@@ -209,3 +209,134 @@ window.OLT = {
     ],
   ],
 };
+
+// Detail panel content shown when a destination card is opened.
+// Written in general terms on purpose: fees, funds and post-study rules change, so confirm specifics before publishing.
+window.OLT.detailNote =
+  "Fees, funding rules, post-study work options and entry requirements change often. We confirm the current position for your course and university before you apply.";
+window.OLT.details = {
+  "United Kingdom": {
+    intro:
+      "Compact degrees and a deep research tradition make the UK a popular route, especially for postgraduate study.",
+    highlights: [
+      "Many master’s degrees take one year, which shortens both time and cost.",
+      "Long-established universities across England, Scotland, Wales and Northern Ireland.",
+      "Strong course links with industry in business, law, engineering and design.",
+    ],
+    fields: [
+      "Business and management",
+      "Law",
+      "Engineering",
+      "Computer science",
+      "Design and creative arts",
+    ],
+    tip:
+      "Undergraduate applications usually go through UCAS. Postgraduate applications are made to each university directly.",
+  },
+  "United States": {
+    intro:
+      "The widest range of institutions and courses, with room to explore before you commit to a major.",
+    highlights: [
+      "Flexible majors: many students choose their subject after the first one or two years.",
+      "Everything from large research universities to small liberal arts colleges.",
+      "Research, assistantship and campus-life opportunities alongside your degree.",
+    ],
+    fields: [
+      "Computer science and data",
+      "Engineering",
+      "Business",
+      "Life sciences",
+      "Liberal arts",
+    ],
+    tip:
+      "Many universities ask for more than an IELTS score, such as essays, references or test scores. Policies differ, so we check each one.",
+  },
+  Canada: {
+    intro:
+      "Universities and colleges that pair classroom study with practical experience.",
+    highlights: [
+      "Co-op programmes that include paid work terms.",
+      "A choice between universities and career-focused colleges.",
+      "Large, multicultural cities as well as quieter university towns.",
+    ],
+    fields: [
+      "Engineering and technology",
+      "Business",
+      "Health sciences",
+      "Hospitality",
+      "Environmental studies",
+    ],
+    tip:
+      "Requirements are set by each province and institution, so two programmes in the same subject can ask for different things.",
+  },
+  Australia: {
+    intro:
+      "Large international campuses and strong teaching in professional subjects.",
+    highlights: [
+      "Strong reputation in engineering, health and business.",
+      "Two main intakes a year, so there is a second chance if you miss one.",
+      "Well-established support for international students on campus.",
+    ],
+    fields: [
+      "Engineering",
+      "Nursing and health",
+      "Business and accounting",
+      "IT",
+      "Education",
+    ],
+    tip:
+      "Overseas student health cover is part of the visa process, so budget for it early.",
+  },
+  "New Zealand": {
+    intro: "Smaller cities, small classes and a practical style of teaching.",
+    highlights: [
+      "Lecturers are easier to reach in smaller classes.",
+      "Teaching that leans towards applied, hands-on learning.",
+      "A calmer pace of life than most large study destinations.",
+    ],
+    fields: [
+      "Agriculture and environment",
+      "Engineering",
+      "Tourism and hospitality",
+      "Health",
+      "Design",
+    ],
+    tip:
+      "Course choice is narrower than in larger countries, so shortlisting early matters.",
+  },
+  Ireland: {
+    intro:
+      "English-speaking, close to Europe and home to many technology and pharmaceutical employers.",
+    highlights: [
+      "English-language teaching with a friendly, compact student culture.",
+      "Many international technology and pharma companies hire in Irish cities.",
+      "Easy travel to the rest of Europe.",
+    ],
+    fields: [
+      "Computer science and data",
+      "Pharma and life sciences",
+      "Business and finance",
+      "Engineering",
+      "Humanities",
+    ],
+    tip:
+      "Dublin, Cork and Galway are popular study cities, and accommodation fills early.",
+  },
+  Germany: {
+    intro: "Public universities with low or no tuition fees on many courses.",
+    highlights: [
+      "Low or no tuition at many public universities.",
+      "A growing number of English-taught master’s programmes.",
+      "Strong engineering and applied-sciences tradition.",
+    ],
+    fields: [
+      "Engineering",
+      "Computer science",
+      "Natural sciences",
+      "Business",
+      "Architecture",
+    ],
+    tip:
+      "Many courses are taught in German. English-taught courses ask for IELTS, while German-taught ones ask for a German test.",
+  },
+};
